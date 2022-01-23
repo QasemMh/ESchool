@@ -1,0 +1,61 @@
+﻿@page
+@model AccessDeniedModel
+
+
+@using Microsoft.AspNetCore.Identity
+@using eSchool.Constants
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Access denied";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <!--  403 Error Text -->
+        <div class="text-center">
+            <div class="error mx-auto" data-text="403">403</div>
+            <p class="lead mb-5 text-danger">You do not have access to this resource.</p>
+            <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
+            @if (User.IsInRole(Roles.Admin.ToString()))
+            {
+
+                <a asp-action="Index" asp-controller="Admin"
+                   class="btn btn-outline-primary btn-sm mt-4">
+                    &larr; Back To Dashboard
+                </a>
+            }
+            else if (User.IsInRole(Roles.Student.ToString()))
+            {
+                <a asp-action="Home" asp-controller="Students"
+                   class="btn btn-outline-primary btn-sm mt-4">
+                    &larr; Back To Dashboard
+                </a>
+            }
+            else if (User.IsInRole(Roles.Teacher.ToString()))
+            {
+                <a asp-action="Home" asp-controller="Teachers"
+                   class="btn btn-outline-primary btn-sm mt-4">
+                    &larr; Back To Dashboard
+                </a>
+            }
+            else if (User.IsInRole(Roles.Parent.ToString()))
+            {
+                <a asp-action="Home" asp-controller="Parents"
+                   class="btn btn-outline-primary btn-sm mt-4">
+                    &larr; Back To Dashboard
+                </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="Home"
+                   class="btn btn-outline-primary btn-sm mt-4">
+                    &larr; Back
+                </a>
+            }
+        </div>
+    </div>
+</div>
+

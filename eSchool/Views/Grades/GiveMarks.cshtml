@@ -1,0 +1,116 @@
+﻿@model AddGradeViewModel
+@{
+    ViewData["Title"] = "Give Marks";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Give Marks</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ClassName</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Subject Name
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.SubjectName</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="GiveMarks" method="post">
+            <input type="hidden" asp-for="@Model.ClassName" />
+            <input type="hidden" asp-for="@Model.SubjectName" />
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <span class="text-danger">@ViewBag.errors</span>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Student</th>
+                                    <th scope="col">Activity(10)</th>
+                                    <th scope="col">First Mark(20)</th>
+                                    <th scope="col">Mid Mark(20)</th>
+                                    <th scope="col">Final Mark(50)</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col">Student</th>
+                                    <th scope="col">Activity Mark</th>
+                                    <th scope="col">First Mark</th>
+                                    <th scope="col">Mid Mark</th>
+                                    <th scope="col">Final Mark</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @for (int i = 0; i < Model.StudentsGrades.Count; i++)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <input type="hidden" asp-for="@Model.StudentsGrades[i].StudentId" />
+                                            @Model.StudentsGrades[i].StudentName
+                                        </td>
+                                        <td>
+                                            <input asp-for="@Model.StudentsGrades[i].ActivityMark" type="number" min="0" max="10" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@Model.StudentsGrades[i].FirstMark" type="number" min="0" max="20" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@Model.StudentsGrades[i].MidtMark" type="number" min="0" max="20" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@Model.StudentsGrades[i].FinalMark" type="number" min="0" max="50" class="form-control" />
+                                            <input asp-for="@Model.StudentsGrades[i].GradeId" type="hidden" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Index" asp-controller="Grades" class="btn btn-outline-secondary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

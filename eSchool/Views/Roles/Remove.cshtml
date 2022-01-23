@@ -1,0 +1,21 @@
+﻿@model RoleViewModel
+
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<form method="post">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4 class="text-danger">Are You Sure?</h4>
+        </div>
+        <div class="card-body">
+            <input type="hidden" asp-for="@Model.RoleId" />
+            <h2>Role Name: @Model.RoleName</h2>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancale</a>
+        </div>
+    </div>
+</form>

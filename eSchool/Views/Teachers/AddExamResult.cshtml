@@ -1,0 +1,75 @@
+﻿@model QuizResultListViewModel
+@{
+    ViewData["Title"] = "Add Exam Result";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Add Exam Result</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-7">
+        <form asp-action="AddExamResult" method="post">
+            <div class="card shadow mb-4">
+                <div class="card-header text-primary">
+                    <h4>
+                        Add Exam Result
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Student</th>
+
+                                <th scope="col">Result</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">Student</th>
+
+                                <th scope="col">Result</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.quizResultViewModels.Count(); i++)
+                            {
+                                <tr>
+                                    <td>@Model.quizResultViewModels[i].StudentName</td>
+                                    <td class="overflow-auto">
+                                        <input type="hidden" asp-for="@Model.quizResultViewModels[i].StudentId" />
+                                        <input type="hidden" asp-for="@Model.quizResultViewModels[i].StudentName" />
+                                        <input class="form-control w-75"
+                                               type="number"
+                                               asp-for="@Model.quizResultViewModels[i].Result"
+                                               value=""
+                                               min="0" max="@QuizResultViewModel.MaxMark"
+                                               required />
+                                        <span class="text-danger" asp-validation-for="@Model.quizResultViewModels[i].Result"></span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <input type="hidden" asp-for="QuizId" />
+                    <input type="hidden" asp-for="SubjectId" />
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                    <a class="btn btn-outline-secondary" asp-action="Courses" asp-controller="Teachers">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

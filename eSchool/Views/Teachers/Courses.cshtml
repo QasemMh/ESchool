@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Subject>
+@{
+    ViewData["Title"] = "My Courses";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>My Courses</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Year:2021 - Semester: 1
+                </h6>
+
+                <form asp-action="Courses" method="get" class="form-inline mt-2">
+                    <div class="input-group mb-3">
+                        <input type="text" name="SearchString" class="form-control mr-sm-2" id="SearchStringId"
+                               value="@ViewData["CurrentFilter"]"
+                               placeholder="Search by..." />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Class</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">Class</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Class.Name</td>
+                                    <td>@item.SubjectDetails.Name</td>
+                                    <td>
+                                        @( $"{item.StartTime.ToString(@"hh\:mm")} - {item.EndTime.ToString(@"hh\:mm")}" )
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <div class="dropdown mb-4">
+                                            <button class="btn btn-outline-primary dropdown-toggle btn-sm"
+                                                    type="button" id="drop-@item.Id"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu animated--fade-in" aria-labelledby="drop-@item.Id">
+                                                <a class="dropdown-item p-5rem "
+                                                   asp-action="TakeAttendance"
+                                                   asp-route-subjectId="@item.Id"
+                                                   asp-route-classId="@item.ClassId">
+                                                    <i class="far fa-calendar-check"></i> Take Attendance
+                                                </a>
+                                                <a class="dropdown-item p-5rem "
+                                                   asp-action="ViewAttendance"
+                                                   asp-route-subjectId="@item.Id"><i class="fas fa-calendar-check"></i> View Attendance</a>
+                                                <a class="dropdown-item p-5rem" asp-action="ExamResult"
+                                                   asp-route-id="@item.Id"><i class="fas fa-check"></i> Add Exam Result</a>
+                                                <a class="dropdown-item p-5rem" asp-action="ViewExamResult"
+                                                   asp-route-id="@item.Id"><i class="fas fa-chart-bar"></i> View Exams Results</a>
+                                                <a class="dropdown-item p-5rem " asp-controller="Grades"
+                                                   asp-action="GiveMarks" asp-route-id="@item.Id">
+                                                    <i class="fas fa-award"></i> Give Marks
+                                                </a>
+                                                <a class="dropdown-item p-5rem "
+                                                   asp-action="SendMessageToStudents"
+                                                   asp-controller="Teachers"
+                                                   asp-route-id="@item.ClassId">
+                                                    <i class="fas fa-envelope"></i> Message Students
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

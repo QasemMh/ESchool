@@ -1,0 +1,123 @@
+﻿@model Parent
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>Parent Details</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Parent Details</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        National Id
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.NationalId
+                    </dd>
+                    <dt class="col-sm-4">
+                        Full Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.FirstName @Model.MidName @Model.LastName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Gender
+                    </dt>
+                    <dd class="col-sm-8">
+                        @(Model.Gender=='M'?"Male":"Female")
+                    </dd>
+                    <dt class="col-sm-4">
+                        Date of brith
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.DateBirth.ToString("yyyy-MM-dd")
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer text-muted">
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Id">Edit</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
+
+    </div>
+    @if (Model.Students.Count > 0)
+    {
+        <div class="col-md-12 mt-4">
+            <h3 class="mt-2 mb-2">Children Information (@Model.Students.Count Children)</h3>
+            <hr />
+            <div class="row">
+                @foreach (var item in Model.Students)
+                {
+                    <div class="col-md-6 mb-3">
+
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Children Details</h6>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">
+                                        National Id
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @item.NationalId
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Full Name
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @item.FirstName @item.MidName @item.LastName
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Gender
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @(item.Gender=='M'?"Male":"Female")
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Date of brith
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @item.DateBirth.ToString("yyyy-MM-dd")
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Class
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @item.Class.Name
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a asp-action="ViewStudent"
+                                   asp-controller="Students"
+                                   class="btn btn-primary" asp-route-userId="@item.Id">View</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6">
+            <div class="alert alert-warning m-2" role="alert">
+                <h4 class=""><i class="fas fa-exclamation-triangle"></i> No Children Found!</h4>
+                <p>
+                    There is no Student Link With This Parent
+                </p>
+            </div>
+        </div>
+    }
+</div>

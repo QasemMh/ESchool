@@ -1,0 +1,143 @@
+﻿@model TeacherViewModel
+
+@{
+    ViewData["Title"] = "Teacher Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Teacher Details</h2>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Teacher Details</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        National Id
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.NationalId
+                    </dd>
+                    <dt class="col-sm-4">
+                        User Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.UserName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Full Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.FirstName @Model.MidName @Model.LastName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Gender
+                    </dt>
+                    <dd class="col-sm-8">
+                        @(Model.Gender=='M'?"Male":"Female")
+                    </dd>
+                    <dt class="col-sm-4">
+                        Date of brith
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.DateBirth.ToString("yyyy-MM-dd")
+                    </dd>
+                    <dt class="col-sm-4">
+                        Email
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Email
+                    </dd>
+                    <dt class="col-sm-4">
+                        Phone
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Phone
+                    </dd>
+
+                </dl>
+            </div>
+
+            <div class="card-footer text-muted">
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Id">Edit</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
+
+    </div>
+
+    @if (Model.Enrollments?.Count() > 0)
+    {
+        <div class="col-md-12 mt-4">
+            <h3 class="mt-2 mb-2">Teacher teach @Model.Enrollments.Sum(e => e.SubjectCount) Subjects in @Model.ClassCount Classes</h3>
+            <hr />
+            <div class="row">
+                @foreach (var item in Model.Enrollments)
+                {
+                    <div class="col-md-6 mb-3">
+
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Class Name: @item.ClassName</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12 ">
+                                        <table class="table table-responsive table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="">Subject</th>
+                                                    <th class="">Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var subject in item.Subjects)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @subject.SubjectDetails.Name
+                                                        </td>
+                                                        <td>
+                                                            @( $"{subject.StartTime.ToString(@"hh\:mm")} - {subject.EndTime.ToString(@"hh\:mm")}" )
+
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a asp-action="Details"
+                                   asp-controller="Classes"
+                                   class="btn btn-primary" asp-route-id="@item.ClassId">View</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <hr />
+        <div class="col-md-6">
+            <div class="alert alert-warning m-2" role="alert">
+                <h4 class=""><i class="fas fa-exclamation-triangle"></i> No Subject Found!</h4>
+                <p>
+                    There is no Subject Link With This Teacher
+                </p>
+            </div>
+        </div>
+    }
+</div>

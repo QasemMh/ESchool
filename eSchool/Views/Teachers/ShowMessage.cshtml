@@ -1,0 +1,27 @@
+﻿@model Chat
+@{
+    ViewData["Title"] = "Show Message";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Message From @Model.From.UserName</h2>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4>
+                    From: @Model.From.UserName
+                </h4>
+                <h5>title: @Model.Title</h5>
+                <p class="lead">
+                    Message:@Model.Message
+                </p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Chat" asp-route-toId="@Model.FromId" class="btn btn-primary">Replay</a>
+                <a asp-action="ShowChat" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>

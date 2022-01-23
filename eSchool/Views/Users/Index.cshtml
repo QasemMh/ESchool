@@ -1,0 +1,142 @@
+﻿@model PaginatedList<UserViewModel>
+@{
+    ViewData["Title"] = "Users";
+}
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">Manage Users</h3>
+</div>
+<hr />
+
+<!--Alter-->
+<div class="alert alert-success alert-dismissible fade show d-none m-2" role="alert">
+    <strong>Deleted</strong> | user was deleted successfily!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a asp-action="Add" class="btn btn-primary">Add New</a>
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Roles</th>
+                        <th scope="col">Email</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Roles</th>
+                        <th scope="col">Email</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@string.Join("-", user.Roles.ToList())</td>
+                            <td>@user.Email</td>
+                            <td>
+                                <div class="btn-group"
+                                     role="group"
+                                     aria-label="Button group example">
+                                    <a class="btn btn-outline-info m-1"
+                                       asp-action="ManageRole"
+                                       asp-route-UserId="@user.Id">Role</a>
+
+                                    <a href="javascript:;"
+                                       class="btn btn-outline-danger m-1 js__user-delete"
+                                       data-id="@user.Id">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted text-center">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-secondary @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-primary @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".js__user-delete").on("click", function () {
+                let btn = $(this);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to DELETE the user?",
+                    buttons: {
+                        confirm: {
+                            label: 'DELETE',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'CANCEL',
+                            className: 'btn-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            fetch("/api/users?id=" + btn.data("id"),
+                                {
+                                    method: "DELETE"
+                                }
+                            ).then(respon => {
+                                btn.parents("tr").fadeOut();
+                                $(".alert").removeClass("d-none");
+                                setTimeout(() => {
+                                    $(".alert").addClass("d-none");
+                                }, 3000);
+                            }).catch(error => { alert("Error" + error) })
+
+                        }
+                    }
+                });
+
+
+            })
+        })
+    </script>
+}

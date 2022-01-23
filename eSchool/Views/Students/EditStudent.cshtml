@@ -1,0 +1,195 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = "EditStudent";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h3 class="h3 mb-0 text-gray-800">Edit Student</h3>
+        </div>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Edit Student | @Model.UserName
+                </h6>
+            </div>
+            <div class="card-body">
+                <form asp-action="EditStudent" asp-controller="Students" method="post">
+                    <input type="hidden" asp-for="@Model.UserId" name="userId" />
+                    <input type="hidden" asp-for="@Model.Id" name="id" />
+                    <!--Account-->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Account Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="UserName"></label>
+                                <input asp-for="UserName" maxlength="100" class="form-control" required />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Informations-->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Student Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="NationalId"></label>
+                                <input asp-for="NationalId"
+                                       type="number" pattern="/^\d+$/"
+                                       onKeyPress="if(this.value.length==10) return false;"
+                                       class="form-control" required />
+                                <span asp-validation-for="NationalId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FirstName"></label>
+                                <input asp-for="FirstName" maxlength="100" class="form-control" required />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MidName"></label>
+                                <input asp-for="MidName" maxlength="100" class="form-control" required />
+                                <span asp-validation-for="MidName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName"></label>
+                                <input asp-for="LastName" maxlength="100" class="form-control" required />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateBirth"></label>
+                                <input asp-for="DateBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateBirth" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender"></label>
+                                <select asp-for="Gender" class="form-control">
+                                    <option disabled selected>---Select Gender---</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ClassId"></label>
+                                <select asp-for="ClassId" asp-items="ViewBag.ClassList"
+                                        required
+                                        class="form-control">
+                                    <option disabled>---Select Class---</option>
+
+                                </select>
+                                <span asp-validation-for="ClassId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ParentId"></label>
+                                <select asp-for="ParentId" asp-items="ViewBag.parents"
+                                        required
+                                        class="form-control">
+                                    <option disabled>---Select Parent---</option>
+
+                                </select>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Contact-->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Contact And Address Details</h6>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.ParentId != null)
+                            {
+                                <a class="btn btn-info mt-2"
+                                   target="_blank"
+                                   asp-action="Edit" asp-controller="Parents"
+                                   asp-route-id="@Model.ParentId">
+                                    <i class="fas fa-external-link-alt"></i> Edit Parent Information
+                                </a>
+                                <hr />
+                            }
+                            <div class="form-group">
+                                <input asp-for="AddressId" type="hidden" />
+                                <label asp-for="Address.Address1"></label>
+                                <input asp-for="Address.Address1" class="form-control" />
+                                <span asp-validation-for="Address.Address1" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address.Address2"></label>
+                                <input asp-for="Address.Address2" class="form-control" />
+                                <span asp-validation-for="Address.Address2" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address.District"></label>
+                                <input asp-for="Address.District" class="form-control" />
+                                <span asp-validation-for="Address.District" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address.Location"></label>
+                                <input asp-for="Address.Location" class="form-control" />
+                                <span asp-validation-for="Address.Location" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Phone"></label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mt-4">
+                        <div class="">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a asp-action="AllStudents" asp-controller="Students"
+                               class="btn btn-outline-secondary">Back</a>
+                        </div>
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+
+
+        $("#ClassId").select2();
+        $("#ParentId").select2();
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

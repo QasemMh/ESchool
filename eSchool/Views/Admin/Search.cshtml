@@ -1,0 +1,93 @@
+﻿@model SearchPageViewModel
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">Search</h3>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header text-primary">
+                <h6 class="m-auto font-weight-bold text-primary"> Search Result</h6>
+            </div>
+            <div class="card-body">
+
+                @if (Model.Students.Count > 0)
+                {
+                    <div class="mb-4">
+                        <small class="text-dark">Students:</small>
+                        <ul class=" ">
+                            @foreach (var item in Model.Students)
+                            {
+                                <li class="mb-2">
+                                    <a asp-action="ViewStudent"
+                                       asp-route-userId="@item.Id"
+                                       asp-controller="Students">   @item.NationalId - @item.FirstName @item.MidName @item.LastName - @item.DateBirth.ToString("yyyy/MM/dd") </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <hr />
+                }
+                @if (Model.Parents.Count > 0)
+                {
+                    <div class="mb-4">
+                        <small class="text-dark">Parents:</small>
+                        <ul class=" ">
+                            @foreach (var item in Model.Parents)
+                            {
+                                <li class="mb-2">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       asp-controller="Parents"> @item.NationalId - @item.FirstName @item.MidName @item.LastName - @item.DateBirth.ToString("yyyy/MM/dd")</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <hr />
+                }
+                @if (Model.Teachers.Count > 0)
+                {
+                    <div class="mb-4">
+                        <small class="text-dark">Teachers:</small>
+                        <ul>
+                            @foreach (var item in Model.Teachers)
+                            {
+                                <li class="mb-2">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       asp-controller="Teachers">  @item.NationalId - @item.FirstName @item.MidName @item.LastName - @item.DateBirth.ToString("yyyy/MM/dd")</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <hr />
+                }
+
+                @if (Model.Classes.Count > 0)
+                {
+                    <div class="mb-4">
+                        <small class="text-dark">Classes:</small>
+                        <ul class=" ">
+                            @foreach (var item in Model.Classes)
+                            {
+                                <li class="mb-2">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       asp-controller="Subjects">  @item.Class.Name - @item.SubjectDetails.Name </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,312 @@
+﻿@model AdminHomeViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+    </a>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Students
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.AllStudents</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Exams
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Exams</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tag fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Parents
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.AllParents</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Courses
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.AllClasses</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <!-- Calender -->
+    <div class="col-lg-12 col-md-12">
+        <div class="card shadow mb-4 h-px overflow-hidden ">
+            <!-- Card Header - Dropdown -->
+            <!-- Card Body -->
+            <div class="card-body  overflow-auto scroll-style">
+                <div class="chart-area">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-12 col-md-12">
+        <div class="row">
+            <!-- Notice -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="far fa-flag"></i> Notice Board
+                        </h6>
+
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body overflow-auto scroll-style">
+                        <div class="chart-pie">
+
+                            @if (Model.Notice != null)
+                            {
+                                @foreach (var notic in Model.Notice)
+                                {
+                                    <div class="notice-list">
+                                        <div class="post-date">
+                                            @notic.PostDateTime.ToString("dd MMM yyyy")
+                                        </div>
+                                        <h6 class="notice-title">
+                                            <a asp-action="ShowNotice"
+                                               asp-controller="Teachers"
+                                               asp-route-id="@notic.Id">
+                                                @notic.Title
+                                            </a>
+                                        </h6>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Notices">All Notices</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Last Chats</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body overflow-auto scroll-style">
+                        <div class="chart-pie">
+                            @if (Model.Chats != null)
+                                @foreach (var chat in Model.Chats)
+                                {
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <img src="~/dashboard/img/undraw_profile.svg" alt="photo">
+                                                </div>
+                                                <div class="col-9">
+                                                    <a asp-action="ShowMessage" asp-route-id="@chat.Id">
+                                                        <h6>@chat.Title</h6>
+                                                        <small>@chat.SendDate.ToString("dd MMM yyyy HH:mm tt")</small>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        </li>
+                                    </ul>
+                                }
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a class="btn btn-outline-primary" asp-action="Chat"
+                           asp-controller="Teachers">Send Message?</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <!--Fixed Modal-->
+    <div class="modal fade" tabindex="-1" id="eventModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="eventModalTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="eventModalText" class="lead">Modal body text goes here.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+
+    <link href="~/lib/FullCalender/main.min.css" rel="stylesheet" />
+}
+@section Scripts{
+    <!-- Page level plugins -->
+    @*<script src="~/dashboard/vendor/chart.js/Chart.min.js"></script>
+        <script src="~/dashboard/vendor/chartjs-plugin-datalabels/chartjs-plugin-datalabels.js"></script>*@
+    <script src="~/lib/FullCalender/main.min.js"></script>
+    @*
+        <script>
+
+            var data = [{
+                data: [@ViewBag.Male, @ViewBag.Female],
+                 backgroundColor: [
+                    "#4e73df",
+                    "#36b9cc",
+                ],
+                borderColor: "#fff"
+           }];
+
+            var arrayDataForPie = "@(string.Join(",", @ViewBag.coursesList))".split(",");
+
+            var getPieData = {
+                labels: arrayDataForPie,
+                datasets: [{
+                    label: "Average",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: [90, 88, 70, 77, 78, 92],
+                }],
+            };
+
+        </script>
+    *@
+    <script>
+        /* Calender */
+        async function getEventData(url = "") {
+            const response = await fetch(url);
+            return response.json();
+        }
+        let eventsData = getEventData("/admin/GetEvents");
+        let scheduleData = getEventData("/Teachers/GetSchedule");
+        let calendarEl = document.getElementById("calendar");
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "timeGrid",
+            height: 680,
+            headerToolbar: {
+                left: "prev,next",
+                center: "title",
+                right: "timeGrid,timeGridWeek,dayGridMonth",
+            }, // buttons for switching between views
+
+            selectable: true,
+            aspectRatio: 2,
+
+            eventClick: function (info) {
+                // $("#editEventId").attr("href", "/Events/Edit/" + info.event.id);
+                $("#eventModalTitle").html(info.event.title);
+                $("#eventModalText").html(
+                    `${info.event.extendedProps.description}
+                                                                                                                                                                                                                                                                 <br/>
+                                                                                                                                                                                                                                                                 <small>Date:
+                                                                                                                                                                                                                                                                 ${info.event.start.toString().split("GMT")[0]} -
+                                                                                                                                                                                                                                                                  ${info.event.end?.toString().split("GMT")[0] ?? ""
+                    } </small>`
+                );
+                $("#eventModal").modal("show");
+            },
+        });
+
+        eventsData.then((events) => {
+            for (let i = 0; i < events.length; i++) {
+                calendar.addEvent(events[i]);
+            }
+        });
+
+        scheduleData.then((events) => {
+            for (let i = 0; i < events.length; i++) {
+                calendar.addEvent(events[i]);
+            }
+        });
+
+        calendar.render();
+    </script>
+
+    <!-- Page level custom scripts -->
+    @*<script src="~/dashboard/js/demo/chart-pie-demo.js" asp-append-version="true"></script>
+        <script src="~/dashboard/js/demo/chart-area-demo.js"></script>
+        <script src="~/dashboard/js/demo/teacher-chart-bar.js" asp-append-version="true"></script>*@
+}

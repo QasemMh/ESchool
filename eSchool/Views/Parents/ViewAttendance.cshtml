@@ -1,0 +1,95 @@
+﻿@model List<Absence>
+@{
+    ViewData["Title"] = "View Absences";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">
+        <i class="far fa-calendar-check"></i> View Absences
+    </h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ClassName</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Student Name
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            @(Model.Count > 0? $"{Model[0].Student.FirstName} {Model[0].Student.MidName} {Model[0].Student.LastName}":"")
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-black-50 text-center">
+                    Total Absences: <span class="text-danger">@Model?.Count</span>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">   Subject  </th>
+                                <th scope="col">   Subject Time  </th>
+                                <th scope="col">   Resone  </th>
+                                <th scope="col" class="text-danger">  Date Of Absences  </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Lesson.Subject.SubjectDetails.Name</td>
+                                    <td>@item.Lesson.Subject.StartTime - @item.Lesson.Subject.EndTime </td>
+                                    <td>@item.Resone</td>
+                                    <td>@item.Lesson.Date.ToString("dddd") - @item.Lesson.Date.ToString("yyyy/MM/dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

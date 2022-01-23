@@ -1,0 +1,89 @@
+﻿@model TeacherViewModel
+
+@{
+    ViewData["Title"] = "View Teacher";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">Teacher Details</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Teacher Details</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+
+                    <dt class="col-sm-4">
+                        First Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.FirstName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Mid Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.MidName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Last Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.LastName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Username
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.UserName
+                    </dd>
+                    <dt class="col-sm-4">
+                        Gender
+                    </dt>
+                    <dd class="col-sm-8">
+                        @(Model.Gender=='M'?"Male":"Female")
+                    </dd>
+                </dl>
+                <hr />
+                <h5 class="mb-2">Concat Details</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Email
+                    </dt>
+                    <dd class="col-sm-8">
+                        <a class="btn btn-outline-primary btn-sm"
+                           href="mailto:@(Model.Email)"><i class="fas fa-external-link-alt"></i> Send Email</a>
+                    </dd>
+                    <dt class="col-sm-4">
+                        Phone Number
+                    </dt>
+                    <dd class="col-sm-8">
+                        <a class="btn btn-outline-info btn-sm"
+                           href="tel:@(Model.Phone)"><i class="fas fa-external-link-alt"></i> Phone Call</a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-success"
+                   asp-action="Chat"
+                   asp-route-toId="@Model.AccountId"><i class="fas fa-envelope"></i> Send Message</a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+

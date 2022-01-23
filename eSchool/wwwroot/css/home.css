@@ -1,0 +1,166 @@
+﻿:root {
+    font-size: 16px;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+footer {
+    padding: 30px;
+}
+
+.home {
+    color: #fff;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url("../images/undraw_Building_blocks_re_rwls.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top right;
+}
+
+.home__title {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+}
+
+.home__content {
+    position: relative;
+    margin-top: -2rem;
+}
+
+.home__scroll {
+    margin-top: 10px;
+    color: #fff;
+    font-weight: bold;
+    width: 150px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border: 2px solid #fff;
+    transition: background 0.3s ease, letter-spacing 0.3s ease;
+}
+
+    .home__scroll:hover {
+        background: rgba(255, 255, 255, 0.342);
+        color: #fff;
+        letter-spacing: 4px;
+    }
+
+/*  */
+.about,
+.admin,
+.parent,
+.teacher,
+.student {
+    min-height: 100vh;
+    padding: 5rem 0;
+    overflow: hidden;
+}
+
+.about__title {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.about p {
+    text-align: justify;
+}
+
+.about__image {
+    background: url("../images/school.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 400px;
+    height: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.admin {
+    background: #f2f2f2;
+}
+
+.heading {
+    position: relative;
+    font-size: 3.5rem;
+    margin-bottom: 100px;
+    color: #000
+}
+
+    .heading::before {
+        content: "HEADING";
+        position: absolute;
+        opacity: 0.1;
+        top: 40%;
+        left: 50%;
+        font-weight: bold;
+        font-size: 1.5em;
+        transform: translate(-50%, -50%);
+    }
+
+.admin__head::before {
+    content: "Management";
+}
+
+.admin__img {
+    background-image: url("../images/management.png");
+}
+
+.admin__img,
+.teacher__img,
+.parent__img,
+.student__img {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 400px;
+    height: 400px;
+    margin: auto;
+}
+
+.fas.fa-check-circle {
+    color: blue;
+}
+
+.teacher__img {
+    background: url("../images/classroom.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.parent__img {
+    background: url("../images/student.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.teacher__head::before {
+    content: "Teacher";
+}
+
+.parent {
+    background: #f2f2f2;
+}
+
+.parent__head::before {
+    content: "Parent";
+}
+
+.student__head::before {
+    content: "Student";
+}
+
+.student__img {
+    background: url("../images/undraw_Profile_re_4a55.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.student {
+    background: #fff;
+}

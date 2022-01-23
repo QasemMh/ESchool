@@ -1,0 +1,56 @@
+﻿@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">Dashboard - Manage Roles</h3>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <partial name="_RoleForm" model="new RoleFormViewModel()">
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">Role Name</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">Role Name</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var Role in Model)
+                    {
+                        <tr>
+                            <td>@Role.Name</td>
+                            <td>
+                                <a asp-action="Remove"
+                                   asp-route-id="@Role.Id"
+                                   class="btn btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

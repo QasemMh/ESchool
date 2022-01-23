@@ -1,0 +1,58 @@
+﻿ 
+ 1- add auth to classes and controllers
+ 
+ 2-make classid optional in student c **
+
+ 3-add teacher and class and subject before assign subjec 
+
+ 4-check password error masage in teacher 
+
+ 5-edit teacher view (جدول المواد)
+
+ 6-edit,add student parent 
+
+ ----
+ 1- add event list in eventController and AdminIdex
+
+ 2-add notic page 
+
+ 3-edit view in  notic details(make it like post or blog)
+
+ 4-chat section
+
+ 5-mesage section
+
+
+ 6-prevent dublecation in lession (teacherConttroll > viewAttend)
+
+ 7-add id for view attend
+
+ 8- subject grade relatiohship must me 1-m
+ ----
+ 8- make quiz -quizresult 1-many not n-m **
+ 9-link quiz table with subject table 1-many **
+ 10- fix bug : search absance by student name
+
+ 11-prevent take quiz/exam more then onec in 
+
+
+ 12- show student in class in admin dashboard
+
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow mb-4">
+            <div class="card-header text-primary">
+                <h6>
+                </h6>
+            </div>
+            <div class="card-body">
+
+            </div>
+            <div class="card-footer text-muted">
+
+            </div>
+        </div>
+    </div>
+</div>
+

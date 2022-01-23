@@ -1,0 +1,49 @@
+﻿@model MessageStudentViewModel
+@{
+    ViewData["Title"] = "SendMessageToStudents";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Send Message To Students in Course: @Model.CourseName</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="SendMessageToStudents" method="post">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Send Message To @Model.CourseName
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Message" class="control-label"></label>
+                        <textarea asp-for="Message" required class="form-control" rows="6"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="FromId" />
+                    <input type="hidden" asp-for="ClassId" />
+
+                </div>
+                <div class="card-footer text-muted">
+                    <button type="submit" class="btn btn-success">Send</button>
+                    <a asp-action="Courses" asp-controller="Teachers"
+                       class="btn btn-outline-secondary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

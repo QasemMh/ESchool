@@ -1,0 +1,123 @@
+﻿@model ClassDataViewModel
+
+@{
+    ViewData["Title"] = "Class Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>Class Details</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Class Details</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        Name
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Class.Name
+                    </dd>
+                    <dt class="col-sm-4">
+                        Year/Semester
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Class.Year /   @Model.Class.Semester
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer text-muted">
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Class.Id">Edit</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
+
+    </div>
+
+    @if (Model.Subjects?.Count() > 0)
+    {
+        <div class="col-md-12 mt-4">
+            <div class="row">
+                <div class="col-md-8 mb-2">
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Class Schedule</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-responsive-lg table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="">Teacher</th>
+                                        <th class="">Subject</th>
+                                        <th class="">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Subjects)
+                                    {
+                                        <tr>
+                                            <td>@item.Teacher.FirstName @item.Teacher.MidName @item.Teacher.LastName</td>
+                                            <td>
+                                                @item.SubjectDetails.Name
+                                            </td>
+                                            <td class="classTime_">
+                                                @( $"{item.StartTime.ToString(@"hh\:mm")} - {item.EndTime.ToString(@"hh\:mm")}" )
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">@Model.SubjectsNames.Count Subjects in Class</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-responsive-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="">#</th>
+                                        <th class="">Subject</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.SubjectsNames.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@(i+1)</td>
+                                            <td>
+                                                @Model.SubjectsNames[i].SubjectDetails.Name
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <hr />
+        <div class="col-md-6">
+            <div class="alert alert-warning m-2" role="alert">
+                <h4 class=""><i class="fas fa-exclamation-triangle"></i> No Subjects Found!</h4>
+                <p>
+                    There is no Subject In This Class
+                </p>
+            </div>
+        </div>
+    }
+</div>
+

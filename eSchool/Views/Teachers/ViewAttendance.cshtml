@@ -1,0 +1,197 @@
+﻿@model ViewAttendanceViewModel
+@{
+    ViewData["Title"] = "ViewAttendance";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2><i class="fas fa-calendar-check"></i> View Attendance</h2>
+<hr />
+
+<div class="row">
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ClassName</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Subject Name
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.SubjectName</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Subject Time
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.SubjectTime</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @if (!Model.NoLessons)
+    {
+        <div class="col-md-12 col-xl-9">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Last Attendance Date: @Model.LessonDate
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Name</th>
+                                    <th scope="col">Today Status</th>
+                                    <th scope="col"> Total Attendance</th>
+                                    <th scope="col"> Total Absence</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col"> Name</th>
+                                    <th scope="col">Today Status</th>
+                                    <th scope="col"> Total Attendance</th>
+                                    <th scope="col"> Total Absence</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+
+                                @foreach (var item in Model.StudentsAttends)
+                                {
+                                    <tr>
+                                        <td>@item.Student.FirstName @item.Student.MidName @item.Student.LastName</td>
+                                        <td class="d-flex justify-content-center align-items-center">
+                                            @if (item.Status.Equals(AttendanceStatus.Present.ToString()))
+                                            {
+                                                <span class="attend-status rounded bg-success">
+                                                    @item.Status
+                                                </span>
+                                            }
+                                            else if (item.Status.Equals(AttendanceStatus.Absent.ToString()))
+                                            {
+                                                <span class="attend-status rounded bg-danger">
+                                                    @item.Status
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="attend-status rounded bg-secondary">
+                                                    @item.Status
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>@item.TotalAttendances</td>
+                                        <td>@item.TotalAbsences</td>
+                                    </tr>
+                                }
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+
+
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-8">
+            <div class="alert alert-warning" role="alert">
+                No Lesson Or Attendance Found, Show <a asp-action="Courses"
+                                                       asp-controller="Teachers"
+                                                       class="alert-link">Course List</a> To Take Attendance
+            </div>
+        </div>
+    }
+
+    <div class="col-md-6  col-xl-3">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Filter List By
+                </h6>
+            </div>
+            <form asp-action="ViewAttendance" method="get">
+                <div class="card-body overflow-hidden">
+                    <div class="row align-content-center">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="subjectId">Course</label>
+                                <select class="form-control" name="subjectId" id="subjectId"
+                                        asp-items="ViewBag.subjects">
+                                    <option disabled>---select Subject---</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <button class="btn btn-outline-success">
+                        <i class="fas fa-sort-alpha-up"></i> Filter
+                    </button>
+                    <button class="btn btn-outline-secondary" id="resetBtn">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+        $("#subjectId").select2();
+
+        $("#resetBtn").on("click", function () {
+            $("select").each(function () {
+                $(this).prop('selectedIndex', 0);
+            })
+        })
+    </script>
+}
+

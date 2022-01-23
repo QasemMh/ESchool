@@ -1,0 +1,60 @@
+﻿
+@model Quiz
+@{
+    ViewData["Title"] = "Edit Exam";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">Add Exam</h3>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <!-- DataTales Example -->
+        <form asp-action="Edit">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Add Exam
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="SubjectId" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mark" class="control-label"></label>
+                        <input asp-for="Mark" class="form-control" />
+                        <span asp-validation-for="Mark" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">Back</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

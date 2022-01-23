@@ -1,0 +1,174 @@
+﻿@model TeacherViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+<h2>Profile</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-7 col-lg-6 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Profile Details</h6>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">
+                                        National Id
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.NationalId
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        First Name
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.FirstName
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Mid Name
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.MidName
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Last Name
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.LastName
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Date of Birth
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.DateBirth.ToString("yyyy/MM/dd")
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Gender
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @(Model.Gender=='M'?"Male":"Female")
+                                    </dd>
+                                </dl>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Account Details</h6>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">
+                                        Username
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.UserName
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Email
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.Email
+                                    </dd>
+                                    <dt class="col-sm-4">
+                                        Phone Number
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @Model.Phone
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
+                            </div>
+                            <form id="FormSubmit" method="post">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="OldPassword">Old Password</label>
+                                        <input type="password" name="oldPassword" id="OldPassword"
+                                               required
+                                               class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="NewPassword">New Password</label>
+                                        <input type="password" name="newPassword"
+                                               required
+                                               id="NewPassword" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ConfirmPassword">Confirm Password</label>
+                                        <input type="password"
+                                               required
+                                               name="confirmPassword"
+                                               id="ConfirmPassword" class="form-control" />
+                                    </div>
+                                    <div id="errMsg" class="text-danger"></div>
+                                    <div id="successMsg" class="text-success"></div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <button type="button" onclick="AjaxFormSubmit()" id="formBtn" class="btn btn-primary">Update password</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        function AjaxFormSubmit() {
+            $("#formBtn").prop('disabled', true);
+
+            var data = $("#FormSubmit").serialize();
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: '/Teachers/Profile',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    $("#successMsg").html(result);
+                    $("#errMsg").html("");
+                    $("#formBtn").prop('disabled', false);
+                },
+                error: function (req, ii, result) {
+                    $("#errMsg").html(req.responseText);
+                    $("#successMsg").html("");
+                    $("#formBtn").prop('disabled', false);
+                }
+            })
+            document.getElementById("FormSubmit").reset();
+        }
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

@@ -1,0 +1,138 @@
+﻿@model List<StudentMarkViewModel>
+@{
+    ViewData["Title"] = "View Marks";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">
+        <i class="fas fa-award"></i> View Marks
+    </h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            @(Model?.Count > 0 ? Model[0].Subject.Class.Name:"")
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class=" col-lg-4 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Student Name
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            @ViewBag.studentName
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" col-lg-4 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Average
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            @ViewBag.avg
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tachometer-alt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-black-50 text-center">
+                    View Marks
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Activity Mark(10)</th>
+                                <th scope="col">First Mark(20)</th>
+                                <th scope="col">Mid Mark(20)</th>
+                                <th scope="col">Final Mark(50)</th>
+                                <th scope="col">Total Mark(100)</th>
+                                <th scope="col">Teacher</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Subject.SubjectDetails.Name</td>
+                                    <td>@item.Grade.ActivityMark</td>
+                                    <td>@item.Grade.FirstMark</td>
+                                    <td>@item.Grade.MidtMark</td>
+                                    <td>@item.Grade.FinalMark</td>
+                                    <td>@item.Grade.Total</td>
+                                    <td>
+                                        <a asp-action="ViewTeacher"
+                                           class="btn btn-outline-primary btn-sm"
+                                           asp-route-id="@item.Subject.TeacherId">
+                                            <i class="fas fa-external-link-alt"></i>
+                                            <span>
+                                                @item.Subject.Teacher.FirstName @item.Subject.Teacher.MidName @item.Subject.Teacher.LastName
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+

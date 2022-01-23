@@ -1,0 +1,111 @@
+﻿@model PaginatedList<Event>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Add New</a>
+                </h6>
+
+                <form asp-action="Index" method="get" class="form-inline mt-2">
+
+                    <div class="form-group mx-sm-3 ">
+                        <input type="text" name="SearchString" class="form-control mr-sm-2" id="SearchStringId"
+                               value="@ViewData["CurrentFilter"]"
+                               placeholder="Search by..." />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary ">Search</button>
+                </form>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+
+                                <th scope="col">Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.Start.ToString("yyyy/MM/dd")</td>
+                                    <td>@(item.End==null ? "":Convert.ToDateTime(item.End).ToString("yyyy/MM/dd"))</td>
+                                    <td class="text-nowrap">
+                                        <a class="btn btn-outline-secondary btn-sm"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id">
+                                            <i class="fas fa-eye fa-sm fa-fw mr-2"></i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-outline-primary  btn-sm"
+                                           asp-action="Edit"
+                                           asp-route-id="@item.Id">
+                                            <i class="fas fa-edit fa-sm fa-fw mr-2  "></i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger  btn-sm"
+                                           asp-action="Delete"
+                                           asp-route-id="@item.Id">
+                                            <i class="fas fa-trash-alt fa-sm fa-fw mr-2  "></i>
+                                            Delete
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center">
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-outline-secondary @prevDisabled">
+                    Previous
+                </a>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-outline-primary @nextDisabled">
+                    Next
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

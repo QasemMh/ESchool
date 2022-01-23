@@ -1,0 +1,77 @@
+﻿@model AssignSubjectViewModel
+
+@{
+    ViewData["Title"] = "Assign new Subject";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Assign new Subject</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-7 overflow-hidden">
+        <form asp-action="Create">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Assign Subject</h6>
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group overflow-hidden">
+                        <label asp-for="ClassId" class="control-label"></label>
+                        <select asp-for="ClassId" class="form-control"
+                                asp-items="ViewBag.ClassId">
+                            <option selected disabled>---Select Class---</option>
+                        </select>
+                        <span asp-validation-for="ClassId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group overflow-hidden">
+                        <label asp-for="TeacherId" class="control-label"></label>
+                        <select asp-for="TeacherId" class="form-control"
+                                asp-items="ViewBag.TeacherId">
+                            <option selected disabled>---Select Teacher---</option>
+                        </select>
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SubjectDetailsId" class="control-label"></label>
+                        <select asp-for="SubjectDetailsId" class="form-control"
+                                asp-items="ViewBag.SubjectDetailsId">
+                            <option selected disabled>---Select Subject---</option>
+                        </select>
+                        <span asp-validation-for="SubjectDetailsId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StartTime" class="control-label"></label>
+                        <input asp-for="StartTime" class="w-50 form-control" />
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="EndTime" class="control-label"></label>
+                        <input asp-for="EndTime" class="form-control w-50" />
+                    </div>
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="card-footer text-muted">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Styles{
+}
+@section Scripts {
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script>
+        $("#ClassId").select2();
+        $("#TeacherId").select2();
+
+
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

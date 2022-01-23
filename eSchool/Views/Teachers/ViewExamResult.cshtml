@@ -1,0 +1,204 @@
+﻿@model ViewExamResultViewModel
+@{
+    ViewData["Title"] = "View Exam Result";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>View Exam Result</h2>
+<hr />
+
+
+<div class="row align-items-start">
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Subject?.Class?.Name</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Subject
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Subject?.SubjectDetails?.Name</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.QuizResults.Count > 0)
+    {
+        <div class="col-xl-6 col-12 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Exam
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @Model.ExamData.Name,<small>@Model.ExamData.Date.ToString("yyyy/MM/dd")</small> - Mark:@Model.ExamData.Mark
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tag fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <form asp-action="ViewExamResult" method="get">
+                    <div class="card-body overflow-hidden">
+                        <div class="row align-items-end justify-content-between flex-wrap">
+                            <div class="col-md-5 mb-2 mb-md-0">
+                                <label for="examId">Exams</label>
+                                <select class="form-control"
+                                        name="examId" id="examId"
+                                        asp-items="ViewBag.examList">
+                                    <option selected value="">---select Exam---</option>
+                                </select>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="hidden" name="id" value="@ViewBag.subjectid" />
+                                <button class="btn btn-outline-success" type="submit">
+                                    <i class="fas fa-sort-alpha-up"></i> Filter
+                                </button>
+                                <button class="btn btn-outline-secondary" id="resetBtn" type="button">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col"> Student  </th>
+                                <th scope="col"> Result From @Model.ExamData?.Mark  </th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col" colspan="2" class="text-center exam-mark">
+                                    <span>Avarage: @Model.Avarage </span>
+                                    @{
+                                        var maxMark = Model.ExamData?.Mark;
+                                        if (Model.Avarage == maxMark)
+                                        {
+                                            <i class="fas fa-thermometer-full text-success"></i>
+                                        }
+                                        else if (maxMark * 0.84 <= Model.Avarage)
+                                        {
+                                            <i class="fas fa-thermometer-three-quarters text-success"></i>
+                                        }
+                                        else if (maxMark * 0.84 > Model.Avarage && maxMark * 0.70 <= Model.Avarage)
+                                        {
+                                            <i class="fas fa-thermometer-half text-primary"></i>
+                                        }
+                                        else if (maxMark * 0.5 <= Model.Avarage && maxMark * 0.70 > Model.Avarage)
+                                        {
+                                            <i class="fas fa-thermometer-quarter text-warning"></i>
+                                        }
+                                        else if (maxMark * 0.5 > Model.Avarage)
+                                        {
+                                            <i class="fas fa-thermometer-empty text-danger"></i>
+                                        }
+                                    }
+                                </th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model.QuizResults)
+                            {
+                                <tr class="exam-mark">
+                                    <td>@item.Student.FirstName @item.Student.MidName @item.Student.LastName</td>
+                                    <td class="d-flex">
+                                        <span class="pr-1" style="width:40px">@item.Result</span>
+                                        <span style="font-size:1.2rem">
+                                            @{
+                                                if (item.Result == maxMark)
+                                                {
+                                                    <i class="fas fa-thermometer-full text-success"></i>
+                                                }
+                                                else if (maxMark * 0.84 <= item.Result)
+                                                {
+                                                    <i class="fas fa-thermometer-three-quarters text-success"></i>
+                                                }
+                                                else if (maxMark * 0.84 > item.Result && maxMark * 0.70 <= item.Result)
+                                                {
+                                                    <i class="fas fa-thermometer-half text-primary"></i>
+                                                }
+                                                else if (maxMark * 0.5 <= item.Result && maxMark * 0.70 > item.Result)
+                                                {
+                                                    <i class="fas fa-thermometer-quarter text-warning"></i>
+                                                }
+                                                else if (maxMark * 0.5 > item.Result)
+                                                {
+                                                    <i class="fas fa-thermometer-empty text-danger"></i>
+                                                }
+                                            }
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    @section Scripts{
+        <script src="~/lib/select2/js/select2.min.js"></script>
+
+        <script>
+            //  $("#studentId").select2();
+
+            $("#resetBtn").on("click", function () {
+                $("select").each(function () {
+                    $(this).prop('selectedIndex', 0);
+                })
+            })
+        </script>
+
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    }
+
+
+

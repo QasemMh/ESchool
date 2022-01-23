@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Grade>
+@{
+    ViewData["Title"] = "Marks";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">View Marks</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-auto font-weight-bold text-primary">Filter By</h6>
+                <form class="form-inline py-3" asp-action="Marks">
+                    <select class="form-control m-2"
+                            asp-items="@ViewBag.classes"
+                            id="classId" name="classId">
+                        <option selected>--Select Class---</option>
+                    </select>
+                    <select class="form-control m-2"
+                            asp-items="@ViewBag.subjects"
+                            id="subId" name="subjectId">
+                        <option selected>--Select Subject---</option>
+                    </select>
+
+
+                    <select class="form-control m-2"
+                            asp-items="@ViewBag.students"
+                            id="stdId" name="studentId">
+                        <option selected>--Select Student---</option>
+                    </select>
+                    <button type="submit" class="btn btn-success btn-sm m-2">Filter</button>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="">Student</th>
+                                <th class="">Class - Subject</th>
+                                <th class="">Activity</th>
+                                <th class="">First Exam</th>
+                                <th class="">Mid Exam</th>
+                                <th class="">Final Exam</th>
+                                <th class="">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() != 0)
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Student.NationalId - @item.Student.FirstName @item.Student.LastName</td>
+                                        <td>@item.Student.Class.Name - @item.Subject.SubjectDetails.Name</td>
+                                        <td>@item.ActivityMark</td>
+                                        <td>@item.FirstMark</td>
+                                        <td>@item.MidtMark</td>
+                                        <td>@item.FinalMark</td>
+                                        <td>@item.Total</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th colspan="7" class="text-center">No Result Found</th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+        $("#stdId").select2();
+
+
+    </script>
+}
+

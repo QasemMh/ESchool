@@ -1,0 +1,80 @@
+﻿@model ClassDataViewModel
+
+@{
+    ViewData["Title"] = "View Class";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">View Class</h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12 col-sm-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Class
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Class.Name</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="col-md-12 mt-4">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Class Schedule</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive-lg table-striped">
+                    <thead>
+                        <tr>
+                            <th class="">Teacher</th>
+                            <th class="">Subject</th>
+                            <th class="">Time</th>
+                            <th class="">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Subjects?.Count > 0)
+                            @foreach (var item in Model.Subjects)
+                            {
+                                <tr>
+                                    <td>@item.Teacher.FirstName @item.Teacher.MidName @item.Teacher.LastName</td>
+                                    <td>
+                                        @item.SubjectDetails.Name
+                                    </td>
+                                    <td class="classTime_">
+                                        @( $"{item.StartTime.ToString(@"hh\:mm")} - {item.EndTime.ToString(@"hh\:mm")}" )
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           asp-action="ViewTeacher"
+                                           asp-route-id="@item.TeacherId">
+                                            View Teacher
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+

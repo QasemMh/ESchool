@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Student>
+@{
+    ViewData["Title"] = "My Children";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">My Children</h3>
+</div>
+<hr />
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">
+            My Children
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">NationalId</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Date of Birth</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">NationalId</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Date of Birth</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.NationalId</td>
+                            <td>@user.ApplicationUser.UserName</td>
+                            <td>@user.FirstName @user.MidName @user.LastName</td>
+                            <td>@user.Class.Name  </td>
+                            <td>@(user.Gender == 'M' ? "Male" : "Female")</td>
+                            <td>@user.DateBirth.ToString("yyyy/MM/dd")</td>
+                            <td class="text-nowrap">
+                                <div class="dropdown mb-4">
+                                    <button class="btn btn-outline-primary dropdown-toggle btn-sm"
+                                            type="button" id="drop-@user.Id"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <div class="dropdown-menu animated--fade-in" aria-labelledby="drop-@user.Id">
+                                        <a class="dropdown-item p-5rem "
+                                           asp-action="ViewClass"
+                                           asp-route-id="@user.ClassId">
+                                            <i class="fas fa-graduation-cap"></i> View Class
+                                        </a>
+                                        <a class="dropdown-item p-5rem "
+                                           asp-action="ViewAttendance"
+                                           asp-route-id="@user.Id">
+                                            <i class="far fa-calendar-check"></i> View Attendance
+                                        </a>
+                                        <a class="dropdown-item p-5rem "
+                                           asp-action="ViewExams"
+                                           asp-route-id="@user.Id">
+                                            <i class="fas fa-chart-bar"></i> View Exams
+                                        </a>
+                                        <a class="dropdown-item p-5rem "
+                                           asp-action="ViewMarks"
+                                           asp-route-id="@user.Id">
+                                            <i class="fas fa-award"></i> View Mark
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Subject>
+
+@{
+    ViewData["Title"] = "Give Marks";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Give Marks</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Current Courses
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Class</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">Class</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Class.Name</td>
+                                    <td>@item.SubjectDetails.Name</td>
+                                    <td>
+                                        @( $"{item.StartTime.ToString(@"hh\:mm")} - {item.EndTime.ToString(@"hh\:mm")}" )
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a asp-controller="Grades"
+                                           asp-action="GiveMarks"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-outline-primary btn-sm"><i class="fas fa-award"></i> Give Marks</a>
+                                        <a asp-controller="Grades"
+                                           asp-action="ViewMarks"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i> View Marks</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

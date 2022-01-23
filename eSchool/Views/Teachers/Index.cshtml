@@ -1,0 +1,171 @@
+﻿@model PaginatedList<TeacherViewModel>
+
+@{
+    ViewData["Title"] = "Teachers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>All Teachers</h2>
+<hr />
+ @if (ViewBag.teachersCount == 0)
+{
+    <div class="alert alert-warning" role="alert">
+        <h4 class=""><i class="fas fa-exclamation-triangle"></i> No Teachers Found!</h4>
+        <p>
+            There is no Teachers, add new Teacher?
+        </p>
+        <hr>
+        <a class="btn btn-warning" asp-action="Create"><i class="fas fa-plus"></i> Add New Teacher</a>
+    </div>
+    return;
+}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Add New</a>
+        </h6>
+
+        <form asp-action="Index" method="get" class="form-inline mt-2">
+
+            <div class="form-group mx-sm-3 ">
+                <input type="text" name="SearchString" class="form-control mr-sm-2" id="SearchStringId"
+                       value="@ViewData["CurrentFilter"]"
+                       placeholder="Search by..." />
+            </div>
+            <button type="submit" class="btn btn-outline-primary ">Search</button>
+        </form>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+
+                        <th scope="col">NationalId</th>
+                        <th scope="col">UserName</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Gender</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+
+                        <th scope="col">NationalId</th>
+                        <th scope="col">UserName</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NationalId</td>
+                            <td>@item.UserName</td>
+                            <td>@item.FirstName @item.MidName @item.LastName </td>
+                            <td>@(item.Gender=='M'?"Male":"Female")</td>
+                            <td class="text-nowrap">
+                                <a class="btn btn-outline-secondary btn-sm"
+                                   asp-action="Details"
+                                   asp-route-id="@item.Id">
+                                    <i class="fas fa-eye fa-sm fa-fw mr-2"></i>
+                                    View
+                                </a>
+                                <a class="btn btn-outline-primary  btn-sm"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.Id">
+                                    <i class="fas fa-edit fa-sm fa-fw mr-2  "></i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-sm js__user-delete"
+                                   data-id="@item.AccountId"
+                                   href="javascript:;">
+                                    <i class="fas fa-trash-alt fa-sm fa-fw mr-2  "></i>
+                                    Delete
+                                </a>
+
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted text-center">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-secondary @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-primary @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".js__user-delete").on("click", function () {
+                let btn = $(this);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to DELETE the user?",
+                    buttons: {
+                        confirm: {
+                            label: 'DELETE',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'CANCEL',
+                            className: 'btn-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            fetch("/api/users?id=" + btn.data("id"),
+                                {
+                                    method: "DELETE"
+                                }
+                            ).then(respon => {
+                                btn.parents("tr").fadeOut();
+                                $(".alert").removeClass("d-none");
+                                setTimeout(() => {
+                                    $(".alert").addClass("d-none");
+                                }, 3000);
+                            }).catch(error => { alert("Error" + error) })
+
+                        }
+                    }
+                });
+
+
+            })
+        })
+    </script>
+}
+

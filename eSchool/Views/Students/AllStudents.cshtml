@@ -1,0 +1,192 @@
+﻿@model PaginatedList<UserProfileViewModel>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">All Students</h3>
+</div>
+
+<!--Alter-->
+<div class="alert alert-success alert-dismissible fade show d-none m-2" role="alert">
+    <strong>Deleted</strong> | user was deleted successfily!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a asp-action="AddStudent" asp-controller="Students" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add New</a>
+        </h6>
+
+        <form asp-action="AllStudents" asp-controller="Students" method="get" class="form-inline">
+
+            <div class="form-group mx-sm-3 ">
+                <input type="text" name="SearchString" class="form-control mr-sm-2" id="SearchStringId"
+                       value="@ViewData["CurrentFilter"]"
+                       placeholder="Search by..." />
+            </div>
+            <button type="submit" class="btn btn-outline-primary ">Search</button>
+        </form>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">NationalId</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Date of Birth</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">NationalId</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Date of Birth</th>
+
+                        <th scope="col">Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.NationalId</td>
+                            <td>@user.UserName</td>
+                            <td>@user.FirstName @user.MidName @user.LastName</td>
+                            <td>@user.ClassName</td>
+                            <td>@(user.Gender == 'M' ? "Male" : "Female")</td>
+                            <td>@user.DateBirth.ToShortDateString()</td>
+
+                            <td>
+                                <div class="dropdown no-arrow">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown2" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="btn btn-outline-success">
+                                            <i class="fas fa-user-cog"></i>
+                                        </span>
+                                    </a>
+                                    <!-- Dropdown - User Information -->
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                         aria-labelledby="userDropdown2">
+                                        <a class="dropdown-item text-secondary"
+                                           asp-action="ViewStudent"
+                                           asp-route-userId="@user.UserId"
+                                           asp-controller="Students">
+                                            <i class="fas fa-eye fa-sm fa-fw mr-2"></i>
+                                            View
+                                        </a>
+                                        <a class="dropdown-item text-primary"
+                                           asp-action="EditStudent"
+                                           asp-route-userId="@user.UserId"
+                                           asp-controller="Students">
+                                            <i class="fas fa-user-edit fa-sm fa-fw mr-2  "></i>
+                                            Edit
+                                        </a>
+                                        <a class="dropdown-item js__user-delete text-danger"
+                                           data-id="@user.Id"
+                                           href="javascript:;">
+                                            <i class="fas fa-trash-alt fa-sm fa-fw mr-2 "></i>
+                                            Delete
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted text-center">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="AllStudents"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-secondary @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="AllStudents"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-outline-primary @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+
+
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".js__user-delete").on("click", function () {
+                let btn = $(this);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to DELETE the user?",
+                    buttons: {
+                        confirm: {
+                            label: 'DELETE',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'CANCEL',
+                            className: 'btn-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            fetch("/api/users?id=" + btn.data("id"),
+                                {
+                                    method: "DELETE"
+                                }
+                            ).then(respon => {
+                                btn.parents("tr").fadeOut();
+                                $(".alert").removeClass("d-none");
+                                setTimeout(() => {
+                                    $(".alert").addClass("d-none");
+                                }, 3000);
+                            }).catch(error => { alert("Error" + error) })
+
+                        }
+                    }
+                });
+
+
+            })
+        })
+    </script>
+}
+
+

@@ -1,0 +1,68 @@
+﻿@model AttendanceViewModel
+@{
+    ViewData["Title"] = "Take Attendance";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2><i class="far fa-calendar-check"></i> Take Attendance</h2>
+<h4>Class #@ViewBag.className </h4>
+<small>Created Date and Time: @DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss tt")</small>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Take Attendance For Class @AttendanceViewModel.ClassId
+                </h6>
+            </div>
+            <form method="post" asp-action="TakeAttendance">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">National Id</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Present?</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col">National Id</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Present?</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @for (int i = 0; i < Model.AttendencesList.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>@Model.AttendencesList[i].NationalId</td>
+                                        <td>@Model.AttendencesList[i].DisplayValue</td>
+                                        <td class="text-nowrap">
+
+                                            <input type="hidden" asp-for="@Model.AttendencesList[i].Id" />
+                                            <input type="hidden" asp-for="@Model.AttendencesList[i].NationalId" />
+                                            <input type="hidden" asp-for="@Model.AttendencesList[i].DisplayValue" />
+                                            <input class="custom-checkbox"
+                                                   asp-for="@Model.AttendencesList[i].IsSelected" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <a class="btn btn-secondary" asp-action="Courses" asp-controller="Teachers">Back</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

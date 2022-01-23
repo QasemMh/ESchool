@@ -1,0 +1,54 @@
+﻿@model eSchool.Models.Quiz
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Exam Details</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow mb-4">
+            <div class="card-header text-primary">
+                <h6>Exam Details</h6>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Mark)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Mark)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+                    <dt class="col-sm-4">
+                        Subject
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Subject.Class.Name - @Model.Subject.SubjectDetails.Name
+                    </dd>
+                </dl>
+
+
+            </div>
+            <div class="card-footer text-muted">
+
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
